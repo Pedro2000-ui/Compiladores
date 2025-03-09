@@ -1,24 +1,28 @@
 #include <stdio.h>
 #include <stdint.h>
+#include "assembler/assembler.h"
 #include "neander/neander.h"
 
-int main(int argc, char *argv[]) {
-    // Verifica se o número de argumentos está correto
-    if (argc != 2) {
-        printf("Uso: %s <arquivo_binario>\n", argv[0]);
-        return 1;
-    }
+int main(void) {
+    
+    // Abre o arquivo .txt com instruções em Assembler e converte pra binário
+    FILE *inputAssembler = fopen("./arquivos_assembler/entrada.txt", "r");
 
-    // Abre o arquivo binário passado como argumento
-    FILE *input = fopen(argv[1], "rb");
-    if (input == NULL) {
-        printf("Erro ao abrir o arquivo: %s\n", argv[1]);
+    // Salva a saída da conversão do assembler pra binário em um arquivo .mem
+    FILE *outputAssembler = fopen("./arquivos_binarios/saida.mem", "wb");
+  
+    converter_binario(inputAssembler, outputAssembler);
+
+    // Abre o arquivo binário gerado pelo conversor assembler e o processa
+    FILE *inputNeander = fopen("./arquivos_binarios/saida.mem", "rb");
+    if (inputNeander == NULL) {
+        printf("Erro ao abrir o arquivo!");
         return 1;
     }
 
     // Processa o arquivo
-    int result = processarArquivo(input);
-    fclose(input);
+    int result = processarArquivo(inputNeander);
+    fclose(inputNeander);
 
     if (result == -1) {
         printf("Arquivo inválido.\n");
