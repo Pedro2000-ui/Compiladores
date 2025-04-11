@@ -1,97 +1,126 @@
 # Compiladores
-Aplicação dos conceitos de funcionamento de um compilador em C.
 
-# Executor/Neander
-O executor é um simulador da máquina virtual Neander, um modelo de computador hipotético usado para fins educacionais. O simulador é capaz de carregar e executar programas binários escritos para a arquitetura Neander.
+Este projeto é uma aplicação prática dos conceitos de funcionamento de um compilador em C, abrangendo as etapas de análise léxica, sintática, geração de código assembly e execução em uma máquina virtual Neander.
 
-## Visão Geral
-O Neander é uma máquina de 8 bits com um conjunto de instruções simples. Este simulador implementa a arquitetura Neander, permitindo a execução de programas escritos em linguagem de máquina.
+## 📚 Gramática Aceita
 
-### Componentes Principais
-- Memória (mem): Um array de 256 posições, onde cada posição armazena um valor de 8 bits.
-- Acumulador (AC): Registrador usado para armazenar resultados de operações aritméticas e lógicas.
-- Contador de Programa (PC): Registrador que aponta para a próxima instrução a ser executada.
-- Flags (N e Z): Flags que indicam se o resultado da última operação foi negativo (N) ou zero (Z).
-
-### Instruções Suportadas
-- NOP: Não faz nada.
-- STA: Armazena o valor do AC na memória.
-- LDA: Carrega um valor da memória no AC.
-- ADD: Soma um valor da memória ao AC.
-- OR: Operação lógica OR.
-- AND: Operação lógica AND.
-- NOT: Inverte os bits do AC.
-- JMP: Salta para um endereço de memória.
-- JN: Salta se a flag N estiver ativa.
-- JZ: Salta se a flag Z estiver ativa.
-- HLT: Para a execução do programa.
-
-### Estrutura do Código
-O código está organizado em três arquivos principais:
-- main.c: Contém a função main, que é o ponto de entrada do programa. Ele lida com a leitura do arquivo binário e inicia a execução do programa.
-- neander.c: Contém a implementação das funções que simulam as instruções da máquina Neander.
-- neander.h: Contém as declarações das funções e variáveis globais usadas no simulador.
-
-#### Funções Principais
-- processarArquivo(FILE *input): Lê o arquivo binário e carrega o programa na memória.
-- exec_instruction(uint16_t instrucao): Executa uma instrução com base no código fornecido.
-- flag_update(): Atualiza as flags N e Z com base no valor atual do AC.
-- print_estado_final(): Imprime o estado final do acumulador, contador de programa e memória.
-
-### Como Funciona
-- Carregamento do Programa: O simulador lê um arquivo binário que contém o programa a ser executado. O arquivo começa com um cabeçalho específico (0x03 0x4E 0x44 0x52), seguido pelos dados que são carregados na memória.
-- Execução das Instruções: O simulador executa as instruções uma a uma, atualizando o AC, PC e flags conforme necessário.
-- Finalização: Quando a instrução HLT é encontrada, o simulador para a execução e imprime o estado final da máquina.
-
-## Estrutura do Projeto
-O projeto está organizado da seguinte forma:
+O compilador atualmente aceita expressões aritméticas simples de soma, seguindo a gramática:
 ```
-compiladores/
-├── arquivos_binarios/ # Pasta contendo arquivos binários para execução
-│ └── soma.mem # Exemplo de programa binário
-├── neander/ # Pasta contendo o código fonte do simulador
-│ ├── neander.c # Implementação das funções do simulador
-│ └── neander.h # Cabeçalho com declarações de funções e variáveis
-├── main.c # Arquivo principal com a função main
+<expr> ::= <num> (<space>? "+" <space>? <num>)+
+<num> ::= [0-9]+
+<space> ::= " "
 ```
 
-### Requisitos
-- Compilador GCC instalado.
-- Um arquivo binário no formato correto (cabeçalho 0x03 0x4E 0x44 0x52).
+### Exemplos válidos:
 
-## Como Compilar e Executar
-### Clone o Repositório
-Primeiro, clone o repositório para o seu ambiente local:
+- `3 + 5`
+- `10 + 20 + 30`
 
-```
-git clone https://github.com/seu-usuario/compiladores.git
-cd compiladores
-```
+### Exemplos inválidos:
 
-### Compile o Projeto
+- `+ 5 5` (operador no início)
+- `3 3 +` (números consecutivos sem operador)
 
-```
-gcc main.c neander/neander.c -o neander
-```
-Isso gerará um executável chamado neander
+## 🔄 Etapas do Compilador
 
-### Execute o Simulador
+1. **Lexer (Analisador Léxico):**
+   - Verifica se a entrada está dentro da gramática definida.
+   - Tokeniza a expressão, identificando números (`NUM`) e operadores (`OPR`).
+   - Gera um arquivo com os tokens para o parser.
 
-```
-./neander.exe arquivos_binarios/soma.mem
-```
+2. **Parser (Analisador Sintático):**
+   - Lê os tokens gerados pelo lexer.
+   - Verifica se há erros léxicos indicados pelo lexer (`ERR`).
+   - Valida a estrutura da expressão (por exemplo, impede que expressões como `+ 5 5` sejam consideradas válidas).
+   - Se a expressão for válida, gera o código assembly correspondente.
 
-### Verifique a Saída
-O simulador exibirá o estado final do acumulador, contador de programa e memória. A saída será algo assim:
+3. **Assembler:**
+   - Converte o código assembly gerado pelo parser em código binário.
+   - Prepara o código binário para execução na máquina virtual Neander.
 
-```
-Acumulador: 8
-Program Counter: 6
-Estado da Memória:
-mem[000] = 0 (0x00)
-...
-mem[010] = 5 (0x05)
-mem[011] = 3 (0x03)
-mem[012] = 8 (0x08)
-...
-```
+4. **Neander (Máquina Virtual):**
+   - Executa o código binário gerado pelo assembler.
+   - Simula a execução da expressão aritmética, realizando as somas conforme definido.
+
+## 🚀 Como Compilar e Executar
+
+### Pré-requisitos
+
+- Sistema operacional Windows ou Linux.
+- [MinGW](https://www.mingw-w64.org/) instalado e configurado no PATH para utilização do `gcc`.
+
+### Passos
+
+1. Clone este repositório:
+    ```bash
+    git clone https://github.com/Pedro2000-ui/Compiladores.git
+   
+2. Navegue até o diretório do projeto:
+    ```bash
+    cd Compiladores
+
+#### 🪟 **No Windows**
+1. Execute o arquivo `build.run.bat` com um duplo clique
+    - Este script irá compilar todos os módulos (`lexer`, `parser`, `assembler`, `neander`) e executar o programa.
+    - A saída será exibida no terminal, incluindo o resultado da execução da expressão.
+
+
+#### 🐧 **No Linux**
+1. Compile manualmente os arquivos fonte com `gcc`:
+    ```bash
+    gcc lexer.c -o lexer
+    gcc parser.c -o parser
+    gcc assembler.c -o assembler
+    gcc neander.c -o neander
+2. Execute os módulos na ordem correta:
+    ```bash
+    ./lexer < input.txt > tokens.txt
+    ./parser < tokens.txt > assembler.txt
+    ./assembler < assembler.txt > binario.txt
+    ./neander < binario.txt
+3. O resultado da execução será exibido no terminal
+
+
+## 🗂️ Estrutura do Projeto
+    Compiladores/
+    ├── lexer/           # Contém o analisador léxico
+    ├── parser/          # Contém o analisador sintático
+    ├── assembler/       # Contém o montador que gera o código binário
+    ├── neander/         # Contém a máquina virtual Neander
+    ├── main.c           # Arquivo principal que integra todos os módulos
+    ├── build_run.bat    # Script para compilar e executar o projeto no Windows
+    └── README.md        # Este arquivo
+
+### 📄 Exemplo de Uso
+Dada a expressão:
+  ``` 
+    3 + 5 + 2
+  ```
+
+A saída esperada após a execução será:
+  ```
+    ; Programa gerado automaticamente para somar números
+    DADO 3 ; inicializa o end 0 com o valor 3
+    DADO 5 ; inicializa o end 1 com o valor 5
+    DADO 2 ; inicializa o end 2 com o valor 2
+    LDA 0 ; Carrega o valor do endereço 0 no acumulador
+    ADD 1 ; Soma o valor do endereço 1 ao acumulador
+    ADD 2 ; Soma o valor do endereço 2 ao acumulador
+    STA 255 ; Armazena o resultado no endereço 255
+    HLT ; Para a execução
+  ```
+E o resultado da execução na máquina virtual Neander será:
+  ```
+    Acumulador: 10
+    Program Counter: 7
+    Estado da Memória:
+    mem[000] = 3 (0x03)
+    mem[001] = 5 (0x05)
+    mem[002] = 2 (0x02)
+    mem[255] = 10 (0x0A)
+    ...
+  ```
+
+# 🧠 Observações
+  - O lexer permite expressões que estejam dentro da gramática definida, mas o parser é responsável por validar a estrutura correta da expressão.
+  - O projeto é uma ferramenta educacional para demonstrar o funcionamento de um compilador simples, desde a análise léxica até a execução em uma máquina virtual.
