@@ -1,0 +1,6 @@
+NUM(5)
+OPR(+)
+NUM(12)
+OPR(+)
+NUM(5)
+EOF()
