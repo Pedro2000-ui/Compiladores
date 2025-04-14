@@ -4,9 +4,9 @@ Este projeto é uma aplicação prática dos conceitos de funcionamento de um co
 
 ## 📚 Gramática Aceita
 
-O compilador atualmente aceita expressões aritméticas simples de soma, seguindo a gramática:
+O compilador atualmente aceita expressões aritméticas simples de soma e subtração, seguindo a gramática:
 ```
-<expr> ::= <num> (<space>? "+" <space>? <num>)+
+<expr> ::= <num> (<space>? ("+" | "-") <space>? <num>)+
 <num> ::= [0-9]+
 <space> ::= " "
 ```
@@ -14,7 +14,7 @@ O compilador atualmente aceita expressões aritméticas simples de soma, seguind
 ### Exemplos válidos:
 
 - `3 + 5`
-- `10 + 20 + 30`
+- `10 + 20 - 30`
 
 ### Exemplos inválidos:
 
@@ -112,7 +112,7 @@ A saída esperada após a execução será:
 E o resultado da execução na máquina virtual Neander será:
   ```
     Acumulador: 10
-    Program Counter: 7
+    Program Counter: 11
     Estado da Memória:
     mem[000] = 3 (0x03)
     mem[001] = 5 (0x05)

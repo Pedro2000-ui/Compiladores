@@ -1,6 +1,4 @@
-NUM(5)
-OPR(+)
-NUM(12)
+NUM(3)
 OPR(+)
 NUM(5)
 EOF()

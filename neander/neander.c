@@ -15,12 +15,13 @@ uint16_t mneumonic_id[] = {0x00, 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x80, 0x90,
 // Função para imprimir o estado final (AC, PC e memória)
 void print_estado_final()
 {
-    printf("Acumulador: %d\n", ac);      // Imprime o valor do acumulador
+    printf("Acumulador: %d\n", (int8_t)ac); // Imprime o valor do acumulador
     printf("Program Counter: %d\n", pc); // Imprime o valor do contador de programa
     printf("Estado da Memória:\n");
     for (int i = 0; i < 256; i++)
     {
-        printf("mem[%03d] = %d (0x%02x)\n", i, mem[i], mem[i]); // Imprime cada posição da memória
+        
+        printf("mem[%03d] = %d (0x%02x)\n", i, (int8_t)mem[i], mem[i]); // Imprime cada posição da memória
     }
 }
 
@@ -85,8 +86,8 @@ int processarArquivo(FILE *input)
         int exec_op = 0;
         for (int i = 0; i < 11; i++)
         {
-            if (mem[pc] == mneumonic_id[i])
-            {                                             // Verifica se a instrução é válida
+            if (mem[pc] == mneumonic_id[i]) // Verifica se a instrução é válida
+            {                                            
                 int finished = exec_instruction(mem[pc]); // Executa a instrução
                 exec_op = 1;
                 if (finished)

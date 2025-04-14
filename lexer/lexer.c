@@ -5,23 +5,28 @@
 #include <stdlib.h>
 #include <string.h>
 
-int tokenizar(FILE *input, FILE *output) {
+int tokenizar(FILE *input, FILE *output)
+{
     Token token_atual;
     char buffer[64];
     int i;
 
-    while (true) {
+    while (true)
+    {
         char c = fgetc(input);
 
-        // Ignorar espaços em branco
-        while (isspace(c)) {
+        // Ignorar apenas espaços e tabulações, mas não quebra de linha
+        while (c == ' ' || c == '\t')
+        {
             c = fgetc(input);
         }
 
-        if (isdigit(c)) {
+        if (isdigit(c))
+        {
             // Lê número completo
             i = 0;
-            while (isdigit(c)) {
+            while (isdigit(c))
+            {
                 buffer[i++] = c;
                 c = fgetc(input);
             }
@@ -31,24 +36,27 @@ int tokenizar(FILE *input, FILE *output) {
             token_atual.tipo.id = TOKEN_NUM;
             token_atual.tipo.description = "NUM";
             token_atual.valor = strdup(buffer);
-
-        } else if (c == '+') {
+        }
+        else if (c == '+' || c == '-')
+        {
             token_atual.tipo.id = TOKEN_OP;
             token_atual.tipo.description = "OPR";
 
             buffer[0] = c;
             buffer[1] = '\0';
             token_atual.valor = strdup(buffer);
-
-        } else if (c == EOF) {
+        }
+        else if (c == EOF)
+        {
             token_atual.tipo.id = TOKEN_EOF;
             token_atual.tipo.description = "EOF";
             token_atual.valor = "";
 
             fprintf(output, "%s()\n", token_atual.tipo.description);
             break;
-
-        } else {
+        }
+        else
+        {
             // Qualquer outro caractere é erro
             token_atual.tipo.id = TOKEN_ERROR;
             token_atual.tipo.description = "ERR";

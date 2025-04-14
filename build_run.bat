@@ -12,7 +12,5 @@ echo Executando...
 main.exe
 
 echo.
-echo ===== Saída gerada (outputParser.txt) =====
-type parser\outputParser.txt
 
 pause

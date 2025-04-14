@@ -1,9 +1,7 @@
-; Programa gerado automaticamente para somar números
-DADO 5 ; inicializa o end 0 com o valor 5
-DADO 12 ; inicializa o end 1 com o valor 12
-DADO 5 ; inicializa o end 2 com o valor 5
+; Programa gerado automaticamente para somar/subtrair números
+DADO 3 ; inicializa o end 0 com o valor 3
+DADO 5 ; inicializa o end 1 com o valor 5
 LDA 0 ; Carrega o valor do endereço 0 no acumulador
-ADD 1 ; Soma o valor do endereço 1 ao acumulador
-ADD 2 ; Soma o valor do endereço 2 ao acumulador
+ADD 1 ; Soma (ou subtrai) o valor do endereço 1 ao acumulador
 STA 255 ; Armazena o resultado no endereço 255
 HLT ; Para a execução
