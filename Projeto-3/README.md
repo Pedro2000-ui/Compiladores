@@ -1,4 +1,4 @@
-# Compilador e Interpretador Brainfuck com Suporte a UTF-8
+# Compilador e Interpretador Brainfuck
 
 Este projeto contém dois programas:
 
