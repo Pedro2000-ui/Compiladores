@@ -41,5 +41,6 @@ Abaixo estão os projetos práticos desenvolvidos como parte dos estudos de comp
 |--------|-----------|
 | [Compilador Neander](./Projeto-1/README.md) | Aplicação prática dos conceitos de funcionamento de um compilador em C e execução em uma máquina virtual Neander |
 | [FielLang - Compilador de linguagem temática](./Projeto-2/README.md) | Uma linguagem inspirada no Corinthians, com gramática personalizada e compilador próprio. |
+| [Compilador e Interpretador Brainfuck](./Projeto-3/README.md) | O projeto consiste em um compilador (bfc) e um interpretador (bfe) para a linguagem Brainfuck. O compilador (bfc) recebe uma entrada no formato nome = expressão (como débito = 3 * 5 + 2), converte essa entrada em código Brainfuck que imprime o nome e o resultado da expressão. O interpretador (bfe) executa esse código Brainfuck, exibindo na tela o nome e o resultado (por exemplo, débito = 17). |
 
 > ⚠️ Certifique-se de navegar até cada pasta para ver os arquivos-fonte, instruções de execução e exemplos de código.
