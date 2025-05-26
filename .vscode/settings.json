@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "locale.h": "c",
+        "ctype.h": "c"
+    }
+}

@@ -7,6 +7,7 @@
 // Função que imprime em Brainfuck um caractere UTF-8 (de até 4 bytes)
 // c: array de bytes do caractere UTF-8
 // len: número de bytes (1 a 4)
+// PS: não está funcionando
 void print_utf8_char(unsigned char *c, int len) {
     for (int i = 0; i < len; i++) {
         printf("[-]");                    // zera célula atual
